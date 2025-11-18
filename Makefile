@@ -125,8 +125,13 @@ ifeq ($(TARGET),)
 	$(error ❌ Укажи TARGET=name)
 endif
 	@mkdir -p $(SRC_DIR)/$(TARGET)
-	@echo '#include <iostream>\n\nint main() {\n    std::cout << "Hello from $(TARGET)\\n";\n    return 0;\n}' > $(SRC_DIR)/$(TARGET)/main.cpp
+	@echo '#include <iostream>' > $(SRC_DIR)/$(TARGET)/main.cpp
+	@echo 'int main() {' >> $(SRC_DIR)/$(TARGET)/main.cpp
+	@echo '    std::cout << "Hello from $(TARGET)\n";' >> $(SRC_DIR)/$(TARGET)/main.cpp
+	@echo '    return 0;' >> $(SRC_DIR)/$(TARGET)/main.cpp
+	@echo '}' >> $(SRC_DIR)/$(TARGET)/main.cpp
 	@echo 'add_executable($(TARGET) main.cpp)' > $(SRC_DIR)/$(TARGET)/CMakeLists.txt
+	@echo 'target_compile_features($(TARGET) PRIVATE cxx_std_23)' >> $(SRC_DIR)/$(TARGET)/CMakeLists.txt
 	@echo "✅ Шаблон создан: $(SRC_DIR)/$(TARGET)/"
 
 help:
